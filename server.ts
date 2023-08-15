@@ -159,7 +159,7 @@ const CART_QUERY_FRAGMENT = `#graphql
     currencyCode
     amount
   }
-  fragment CartLine on CartLine {
+  fragment CartLine on ComponentizableCartLine {
     id
     quantity
     attributes {
