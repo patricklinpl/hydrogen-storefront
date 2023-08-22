@@ -159,7 +159,57 @@ const CART_QUERY_FRAGMENT = `#graphql
     currencyCode
     amount
   }
-  fragment CartLine on ComponentizableCartLine {
+  fragment CartLine on CartLine {
+    id
+    quantity
+    attributes {
+      key
+      value
+    }
+    cost {
+      totalAmount {
+        ...Money
+      }
+      amountPerQuantity {
+        ...Money
+      }
+      compareAtAmountPerQuantity {
+        ...Money
+      }
+    }
+    merchandise {
+      ... on ProductVariant {
+        id
+        availableForSale
+        compareAtPrice {
+          ...Money
+        }
+        price {
+          ...Money
+        }
+        requiresShipping
+        title
+        image {
+          id
+          url
+          altText
+          width
+          height
+
+        }
+        product {
+          handle
+          title
+          id
+        }
+        selectedOptions {
+          name
+          value
+        }
+      }
+    }
+  }
+  fragment ComponentizableCartLine on ComponentizableCartLine {
     id
     quantity
     attributes {
@@ -228,6 +278,7 @@ const CART_QUERY_FRAGMENT = `#graphql
     lines(first: $numCartLines) {
       nodes {
         ...CartLine
+        ...ComponentizableCartLine
       }
     }
     cost {
